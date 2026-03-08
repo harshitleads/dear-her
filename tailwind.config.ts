@@ -65,8 +65,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
-        letter: ['"Lora"', 'Georgia', 'serif'],
+        display: ['"Cormorant Garamond"', 'serif'],
+        letter: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         body: ['"Inter"', 'sans-serif'],
       },
       borderRadius: {

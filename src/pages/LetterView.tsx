@@ -16,7 +16,6 @@ const LetterView = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
 
-  // Determine if this is the shared view (no buttons) or creator view
   const isShared = !isNew && !location.state;
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const LetterView = () => {
   useEffect(() => {
     if (!letter) return;
     let i = 0;
-    const speed = 20; // ms per character
+    const speed = 20;
     const timer = setInterval(() => {
       i++;
       setDisplayedText(letter.slice(0, i));
@@ -69,11 +68,7 @@ const LetterView = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <motion.div
-          className="w-10 h-10 border-2 border-rose-gold/30 border-t-rose-gold rounded-full"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-        />
+        <div className="w-16 h-16 rounded-full bg-rose-gold/20 warm-glow-pulse" />
       </div>
     );
   }
@@ -81,7 +76,7 @@ const LetterView = () => {
   if (!letter) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center px-6">
-        <p className="font-letter text-foreground/50 text-lg italic">
+        <p className="font-letter text-foreground/50 text-xl">
           This letter doesn't exist or has been lost in time.
         </p>
       </div>
@@ -94,23 +89,22 @@ const LetterView = () => {
 
       <div className="relative z-10 w-full max-w-2xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="bg-parchment rounded-lg p-8 md:p-12 shadow-2xl shadow-rose-gold/10"
         >
-          <div className="font-letter text-parchment-foreground text-base md:text-lg leading-relaxed whitespace-pre-line">
+          <div className="font-letter text-parchment-foreground text-lg md:text-xl leading-relaxed whitespace-pre-line">
             {displayedText}
             {!typingDone && <span className="typewriter-cursor" />}
           </div>
         </motion.div>
 
-        {/* Buttons (only for creator, after typing) */}
         {!isShared && typingDone && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.3, duration: 0.6, ease: "easeInOut" }}
             className="flex flex-col sm:flex-row gap-3 justify-center mt-8"
           >
             <Button variant="hero" size="lg" onClick={handleCopy}>
@@ -122,12 +116,11 @@ const LetterView = () => {
           </motion.div>
         )}
 
-        {/* Shared view credit */}
         {isShared && typingDone && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
             className="text-center mt-10 font-body text-xs text-foreground/25"
           >
             Made with Dear Her
