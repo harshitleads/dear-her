@@ -54,7 +54,7 @@ const Writer = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke("generate-letter", {
-        body: { relationship, senderName: senderName.trim() || "someone who cares", answers },
+        body: { relationship, customName: customName.trim() || null, senderName: senderName.trim() || "someone who cares", answers },
       });
 
       if (error) throw error;
