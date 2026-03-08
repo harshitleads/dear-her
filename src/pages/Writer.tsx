@@ -144,6 +144,25 @@ const Writer = () => {
               </div>
             </motion.div>
 
+            {/* Custom salutation name */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.6, ease: "easeInOut" }}
+              className="mb-12"
+            >
+              <label className="block font-letter text-lg text-secondary mb-3">
+                What should the letter call her?
+              </label>
+              <input
+                type="text"
+                value={customName}
+                onChange={(e) => setCustomName(e.target.value)}
+                maxLength={50}
+                className="w-full bg-muted/50 border border-foreground/10 rounded-lg px-4 py-3 font-letter text-lg text-foreground/90 placeholder:text-muted-foreground focus:outline-none focus:border-rose-gold/50 transition-colors duration-[600ms]"
+                placeholder="e.g. Nana, Priya, Mrs. Sharma... (optional)"
+              />
+            </motion.div>
             {/* Prompts */}
             {PROMPTS.map((prompt, i) => (
               <motion.div
