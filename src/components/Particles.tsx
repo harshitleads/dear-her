@@ -5,13 +5,13 @@ const Particles = ({ count = 20 }: { count?: number }) => {
     () =>
       Array.from({ length: count }, (_, i) => ({
         id: i,
-        left: 15 + Math.random() * 70,
-        size: 3 + Math.random() * 6,
-        duration: 8 + Math.random() * 12,
-        delay: Math.random() * 8,
+        left: 10 + Math.random() * 80,
+        size: 4 + Math.random() * 8,
+        duration: 7 + Math.random() * 10,
+        delay: Math.random() * 6,
         swayDuration: 3 + Math.random() * 5,
         swayDelay: Math.random() * 3,
-        opacity: 0.25 + Math.random() * 0.4,
+        opacity: 0.35 + Math.random() * 0.45,
       })),
     [count]
   );

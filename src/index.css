@@ -6,33 +6,43 @@
 
 @layer base {
   :root {
-    --background: 30 38% 92%;
-    --foreground: 20 55% 12%;
+    /* Page background: #fce8e8 → hsl(0, 80%, 95%) */
+    --background: 0 80% 95%;
+    /* Body text: #5c1a1a → hsl(0, 55%, 23%) */
+    --foreground: 0 55% 23%;
 
-    --card: 28 35% 90%;
-    --card-foreground: 20 55% 12%;
+    /* Letter surface: #fff8f8 → hsl(0, 100%, 98%) */
+    --card: 0 100% 98%;
+    /* Letter text: #3d1010 → hsl(0, 60%, 15%) */
+    --card-foreground: 0 60% 15%;
 
-    --popover: 30 38% 92%;
-    --popover-foreground: 20 55% 12%;
+    --popover: 0 80% 95%;
+    --popover-foreground: 0 55% 23%;
 
-    --primary: 18 42% 56%;
-    --primary-foreground: 30 38% 95%;
+    /* Button/accent: #c0384a → hsl(353, 55%, 49%) */
+    --primary: 353 55% 49%;
+    /* Button text: #ffffff */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 25 50% 72%;
-    --secondary-foreground: 20 55% 12%;
+    /* Subline: #8b3a3a → hsl(0, 41%, 39%) */
+    --secondary: 0 41% 39%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 30 25% 83%;
-    --muted-foreground: 20 25% 40%;
+    /* Textarea bg: #fff5f5 → hsl(0, 100%, 97%) */
+    --muted: 0 100% 97%;
+    /* Placeholder/counter: #c49090 → hsl(0, 34%, 67%) */
+    --muted-foreground: 0 34% 67%;
 
-    --accent: 18 42% 56%;
-    --accent-foreground: 30 38% 95%;
+    --accent: 353 55% 49%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 30 25% 78%;
-    --input: 30 25% 78%;
-    --ring: 18 42% 56%;
+    /* Textarea border: #e8a0a0 → hsl(0, 56%, 77%) */
+    --border: 0 56% 77%;
+    --input: 0 56% 77%;
+    --ring: 353 55% 49%;
 
     --radius: 0.75rem;
 
@@ -46,11 +56,13 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Custom tokens */
-    --parchment: 28 35% 90%;
-    --parchment-foreground: 20 55% 12%;
-    --rose-gold: 18 42% 56%;
-    --soft-gold: 25 50% 72%;
-    --deep-bg: 30 38% 92%;
+    --parchment: 0 100% 98%;
+    --parchment-foreground: 0 60% 15%;
+    /* Heading: #c0384a */
+    --rose-gold: 353 55% 49%;
+    /* Particle: #e88090 → hsl(351, 68% 70%) */
+    --soft-gold: 351 68% 70%;
+    --deep-bg: 0 80% 95%;
   }
 }
 
@@ -93,10 +105,10 @@
     opacity: 0;
   }
   10% {
-    opacity: 0.6;
+    opacity: 0.7;
   }
   90% {
-    opacity: 0.3;
+    opacity: 0.4;
   }
   100% {
     transform: translateY(-10vh) scale(1);
