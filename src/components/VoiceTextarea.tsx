@@ -10,7 +10,7 @@ interface VoiceTextareaProps {
   labelColor?: string;
 }
 
-const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label }: VoiceTextareaProps) => {
+const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelColor }: VoiceTextareaProps) => {
   const { isListening, isSupported, startListening, stopListening } = useSpeechRecognition();
 
   const handleMicClick = () => {
