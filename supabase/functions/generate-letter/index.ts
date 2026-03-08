@@ -73,7 +73,7 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    const systemPrompt = `You are writing a deeply personal, emotionally resonant letter from one person to a woman they love. The user has given you raw, honest notes about her. Your job is to elevate their words — not replace them. Keep their voice, amplify their feeling. Write in first person, warm and intimate. No clichés. No generic Women's Day copy. Make it feel like the most articulate version of them wrote it. 3-4 paragraphs. Start with 'Dear ${relationship},' and sign with their name. Make her feel truly seen.`;
+    const systemPrompt = `You are writing a deeply personal, emotionally resonant letter from one person to a woman they love. The user has given you raw, honest notes about her. Your job is to elevate their words, not replace them. Keep their voice, amplify their feeling. Write in first person, warm and intimate. No clichés. No generic Women's Day copy. Make it feel like the most articulate version of them wrote it. 3-4 paragraphs. Start with 'Dear ${relationship},' and sign with their name. Make her feel truly seen. Never use em dashes (—) anywhere in the letter. If you feel the urge to use an em dash, rewrite the sentence instead. Use periods, commas, or line breaks. The letter must read as human-written, not AI-generated.`;
 
     const userMessage = `Relationship: ${relationship}
 Name signing off: ${senderName || "someone who cares"}
