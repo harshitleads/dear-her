@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 340 100% 5%;
-    --foreground: 30 50% 95%;
+    --background: 44 87% 94%;
+    --foreground: 25 30% 25%;
 
     --card: 20 60% 95%;
     --card-foreground: 340 40% 15%;
 
-    --popover: 340 100% 5%;
-    --popover-foreground: 30 50% 95%;
+    --popover: 44 87% 94%;
+    --popover-foreground: 25 30% 25%;
 
-    --primary: 12 72% 70%;
-    --primary-foreground: 340 100% 5%;
+    --primary: 25 45% 60%;
+    --primary-foreground: 44 87% 94%;
 
     --secondary: 25 80% 79%;
-    --secondary-foreground: 340 100% 5%;
+    --secondary-foreground: 25 30% 25%;
 
-    --muted: 340 40% 12%;
-    --muted-foreground: 12 30% 60%;
+    --muted: 35 30% 85%;
+    --muted-foreground: 25 20% 50%;
 
-    --accent: 12 72% 70%;
-    --accent-foreground: 30 50% 95%;
+    --accent: 25 45% 60%;
+    --accent-foreground: 44 87% 94%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 340 30% 18%;
-    --input: 340 30% 18%;
-    --ring: 12 72% 70%;
+    --border: 35 30% 80%;
+    --input: 35 30% 80%;
+    --ring: 25 45% 60%;
 
     --radius: 0.75rem;
 
@@ -48,9 +48,9 @@
     /* Custom tokens */
     --parchment: 20 60% 95%;
     --parchment-foreground: 340 40% 15%;
-    --rose-gold: 12 72% 70%;
+    --rose-gold: 25 45% 60%;
     --soft-gold: 25 80% 79%;
-    --deep-bg: 340 100% 5%;
+    --deep-bg: 44 87% 94%;
   }
 }
 
