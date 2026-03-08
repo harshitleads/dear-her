@@ -8,7 +8,7 @@ const Index = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <Particles count={50} />
+      <Particles count={70} />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
