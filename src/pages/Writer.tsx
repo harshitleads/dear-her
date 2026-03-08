@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ const PROMPTS = [
 ] as const;
 
 const MAX_CHARS = 300;
+const DAILY_LIMIT = 3;
 
 const LOADING_TEXTS = [
   "Reading between the lines...",
@@ -30,6 +31,22 @@ const Writer = () => {
   const [senderName, setSenderName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+  const [remaining, setRemaining] = useState<number | null>(null);
+
+  const fetchRemaining = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke("check-remaining");
+      if (!error && data?.remaining !== undefined) {
+        setRemaining(data.remaining);
+      }
+    } catch {
+      // silently fail
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchRemaining();
+  }, [fetchRemaining]);
 
   const handleAnswerChange = (index: number, value: string) => {
     setAnswers((prev) => {
@@ -39,7 +56,7 @@ const Writer = () => {
     });
   };
 
-  const canSubmit = relationship && answers.every((a) => a.trim().length > 0);
+  const canSubmit = relationship && answers.every((a) => a.trim().length > 0) && remaining !== 0;
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -71,6 +88,8 @@ const Writer = () => {
       }
 
       clearInterval(interval);
+      // Update remaining count after successful generation
+      setRemaining((prev) => (prev !== null ? Math.max(0, prev - 1) : null));
       navigate(`/letter/${data.id}`, { state: { isNew: true } });
     } catch (e: any) {
       clearInterval(interval);
@@ -78,6 +97,13 @@ const Writer = () => {
       toast.error("Something went wrong. Please try again.");
       console.error(e);
     }
+  };
+
+  const remainingText = () => {
+    if (remaining === null) return null;
+    if (remaining >= DAILY_LIMIT) return `Free to use · ${DAILY_LIMIT} letters per day`;
+    if (remaining === 0) return "You've written 3 letters today. Come back tomorrow.";
+    return `${remaining} letter${remaining === 1 ? "" : "s"} remaining today`;
   };
 
   return (
@@ -89,7 +115,8 @@ const Writer = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 bg-background flex items-center justify-center z-50"
+          className="fixed inset-0 flex items-center justify-center z-50"
+          style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}
         >
           <div className="text-center">
             <div className="w-20 h-20 rounded-full bg-rose-gold/20 warm-glow-pulse mx-auto mb-8" />
@@ -114,7 +141,8 @@ const Writer = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="min-h-screen bg-background py-12 px-4"
+          className="min-h-screen py-12 px-4"
+          style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}
         >
           <div className="max-w-2xl mx-auto">
             {/* Relationship selector */}
@@ -124,7 +152,7 @@ const Writer = () => {
               transition={{ delay: 0.1, duration: 0.6, ease: "easeInOut" }}
               className="mb-12"
             >
-              <p className="font-letter text-xl text-foreground/60 mb-4 text-center">
+              <p className="font-letter text-xl mb-4 text-center" style={{ color: '#7a2535' }}>
                 Who are you writing to?
               </p>
               <div className="flex flex-wrap justify-center gap-2">
@@ -135,8 +163,9 @@ const Writer = () => {
                     className={`px-5 py-2 rounded-full font-body text-sm transition-all duration-[600ms] border ${
                       relationship === r
                         ? "bg-rose-gold text-background border-rose-gold"
-                        : "bg-transparent text-foreground/50 border-foreground/20 hover:border-rose-gold/50 hover:text-foreground/80"
+                        : "bg-transparent hover:text-foreground/80"
                     }`}
+                    style={relationship !== r ? { color: '#7a2535', borderColor: '#d4909a' } : undefined}
                   >
                     {r}
                   </button>
@@ -151,7 +180,7 @@ const Writer = () => {
               transition={{ delay: 0.15, duration: 0.6, ease: "easeInOut" }}
               className="mb-12"
             >
-              <label className="block font-letter text-lg text-secondary mb-3">
+              <label className="block font-letter text-lg mb-3" style={{ color: '#7a2535' }}>
                 What should the letter call her?
               </label>
               <input
@@ -163,6 +192,7 @@ const Writer = () => {
                 placeholder="e.g. Nana, Priya, Mrs. Sharma... (optional)"
               />
             </motion.div>
+
             {/* Prompts */}
             {PROMPTS.map((prompt, i) => (
               <motion.div
@@ -178,6 +208,7 @@ const Writer = () => {
                   maxLength={MAX_CHARS}
                   label={prompt}
                   placeholder="Start writing..."
+                  labelColor="#7a2535"
                 />
               </motion.div>
             ))}
@@ -189,7 +220,7 @@ const Writer = () => {
               transition={{ delay: 0.65, duration: 0.6, ease: "easeInOut" }}
               className="mb-12"
             >
-              <label className="block font-letter text-lg text-foreground/60 mb-3">
+              <label className="block font-letter text-lg mb-3" style={{ color: '#7a2535' }}>
                 Your name (how the letter signs off)
               </label>
               <input
@@ -212,6 +243,18 @@ const Writer = () => {
               <Button variant="hero" size="xl" onClick={handleSubmit} disabled={!canSubmit}>
                 Transform it →
               </Button>
+
+              {/* Remaining letters */}
+              {remainingText() && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.6 }}
+                  className="mt-4 font-body text-xs text-muted-foreground"
+                >
+                  {remainingText()}
+                </motion.p>
+              )}
             </motion.div>
           </div>
         </motion.div>
