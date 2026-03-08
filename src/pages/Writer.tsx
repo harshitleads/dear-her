@@ -26,6 +26,7 @@ const Writer = () => {
   const navigate = useNavigate();
   const [relationship, setRelationship] = useState<string>("");
   const [answers, setAnswers] = useState(["", "", ""]);
+  const [customName, setCustomName] = useState("");
   const [senderName, setSenderName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
