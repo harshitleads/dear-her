@@ -190,7 +190,7 @@ const Writer = () => {
                 onChange={(e) => setCustomName(e.target.value)}
                 maxLength={50}
                 className="w-full bg-muted/50 border border-foreground/10 rounded-lg px-4 py-3 font-letter text-lg text-foreground/90 placeholder:text-muted-foreground focus:outline-none focus:border-rose-gold/50 transition-colors duration-[600ms]"
-                placeholder="e.g. Grace, Priya, Mrs. Sharma... (optional)"
+                placeholder="e.g. Grace or Mrs. Sharma... (optional)"
               />
             </motion.div>
 
