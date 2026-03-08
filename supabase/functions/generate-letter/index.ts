@@ -58,7 +58,7 @@ serve(async (req) => {
       console.error("Count error:", countError);
     }
 
-    if ((count ?? 0) >= 3) {
+    if ((count ?? 0) >= 10) {
       return new Response(
         JSON.stringify({
           error: "You've written 3 letters today. Come back tomorrow — she'll still be worth it.",
