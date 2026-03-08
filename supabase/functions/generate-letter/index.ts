@@ -112,7 +112,7 @@ serve(async (req) => {
     }
 
     const aiData = await aiResponse.json();
-    const generatedLetter = aiData.choices?.[0]?.message?.content;
+    const generatedLetter = aiData.content?.[0]?.text;
 
     if (!generatedLetter) {
       throw new Error("No letter generated");
