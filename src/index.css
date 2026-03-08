@@ -8,8 +8,8 @@
   :root {
     /* Page background: #fce8e8 → hsl(0, 80%, 95%) */
     --background: 0 80% 95%;
-    /* Body text: #5c1a1a → hsl(0, 55%, 23%) */
-    --foreground: 0 55% 23%;
+    /* Body text: #3d1010 → hsl(0, 60%, 15%) */
+    --foreground: 0 60% 15%;
 
     /* Letter surface: #fff8f8 → hsl(0, 100%, 98%) */
     --card: 0 100% 98%;

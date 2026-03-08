@@ -84,7 +84,7 @@ const LetterView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 relative">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 relative" style={{ background: 'linear-gradient(to bottom, #fff5f5, #fce8e8)' }}>
       <Particles count={15} />
 
       <div className="relative z-10 w-full max-w-2xl">
