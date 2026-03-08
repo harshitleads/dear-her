@@ -255,7 +255,16 @@ const Writer = () => {
                 >
                   {remainingText()}
                 </motion.p>
-              )}
+               )}
+               <motion.p
+                 initial={{ opacity: 0 }}
+                 animate={{ opacity: 1 }}
+                 transition={{ delay: 1.2, duration: 0.6 }}
+                 className="mt-3 font-body text-xs text-muted-foreground flex items-start justify-center gap-1.5 max-w-sm mx-auto text-center"
+               >
+                 <Lock size={12} className="mt-0.5 shrink-0" />
+                 <span>Your words are private. Letters are stored anonymously with no account, no name, no email attached. We don't read them.</span>
+               </motion.p>
             </motion.div>
           </div>
         </motion.div>
