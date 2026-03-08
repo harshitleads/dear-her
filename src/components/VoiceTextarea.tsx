@@ -7,9 +7,10 @@ interface VoiceTextareaProps {
   maxLength: number;
   placeholder?: string;
   label: string;
+  labelColor?: string;
 }
 
-const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label }: VoiceTextareaProps) => {
+const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelColor }: VoiceTextareaProps) => {
   const { isListening, isSupported, startListening, stopListening } = useSpeechRecognition();
 
   const handleMicClick = () => {
@@ -25,7 +26,7 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label }: Voice
 
   return (
     <div>
-      <label className="block font-letter text-lg text-foreground/60 mb-3">
+      <label className="block font-letter text-lg text-foreground/60 mb-3" style={labelColor ? { color: labelColor } : undefined}>
         {label}
       </label>
       <div className="relative">

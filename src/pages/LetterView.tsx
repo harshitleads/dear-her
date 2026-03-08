@@ -67,7 +67,7 @@ const LetterView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}>
         <div className="w-16 h-16 rounded-full bg-rose-gold/20 warm-glow-pulse" />
       </div>
     );
@@ -75,7 +75,7 @@ const LetterView = () => {
 
   if (!letter) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-6">
+      <div className="min-h-screen flex items-center justify-center px-6" style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}>
         <p className="font-letter text-foreground/50 text-xl">
           This letter doesn't exist or has been lost in time.
         </p>
@@ -84,7 +84,7 @@ const LetterView = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 relative" style={{ background: 'linear-gradient(to bottom, #fff5f5, #fce8e8)' }}>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 relative" style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}>
       <Particles count={15} />
 
       <div className="relative z-10 w-full max-w-2xl">
