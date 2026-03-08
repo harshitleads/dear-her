@@ -17,7 +17,7 @@ const Index = () => {
         className="relative z-10 text-center px-6 max-w-xl"
       >
         <motion.h1
-          className="font-display text-6xl md:text-8xl font-bold text-rose-gold mb-4 italic"
+          className="font-display text-6xl md:text-8xl font-bold text-rose-gold mb-4 italic drop-shadow-sm"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
@@ -26,7 +26,7 @@ const Index = () => {
         </motion.h1>
 
         <motion.p
-          className="font-letter text-xl md:text-2xl text-foreground/70 mb-12 leading-relaxed"
+          className="font-letter text-xl md:text-2xl text-rose-gold/80 mb-12 leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.7 }}
