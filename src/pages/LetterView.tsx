@@ -55,9 +55,8 @@ const LetterView = () => {
 
   const handleCopy = () => {
     const url = `${window.location.origin}/letter/${id}`;
-    const message = `I wrote something for you. Open this when you have a quiet moment. 🌸\n\n${url}`;
-    navigator.clipboard.writeText(message);
-    toast("Message copied. Now send it to her.", {
+    navigator.clipboard.writeText(url);
+    toast("Link copied. Send it to her.", {
       style: {
         background: "hsl(var(--parchment))",
         color: "hsl(var(--parchment-foreground))",
