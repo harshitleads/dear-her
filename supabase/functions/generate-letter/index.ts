@@ -67,36 +67,25 @@ serve(async (req) => {
       );
     }
 
-    // Generate letter via Lovable AI
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    // Generate letter via Anthropic Claude
+    const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
+    if (!ANTHROPIC_API_KEY) {
+      throw new Error("ANTHROPIC_API_KEY is not configured");
     }
 
     const systemPrompt = `You are writing a deeply personal, emotionally resonant letter from one person to a woman they love. The user has given you raw, honest notes about her. Your job is to elevate their words, not replace them. Keep their voice, amplify their feeling. Write in first person, warm and intimate. No clichés. No generic Women's Day copy. Make it feel like the most articulate version of them wrote it. 3-4 paragraphs. Start with 'Dear ${relationship},' and sign with their name. Make her feel truly seen. Never use em dashes (—) anywhere in the letter. If you feel the urge to use an em dash, rewrite the sentence instead. Use periods, commas, or line breaks. The letter must read as human-written, not AI-generated.`;
 
-    const userMessage = `Relationship: ${relationship}
-Name signing off: ${senderName || "someone who cares"}
-
-Prompt 1 — A small thing she does:
-${answers[0]}
-
-Prompt 2 — A moment only I've seen:
-${answers[1]}
-
-Prompt 3 — What I want her to know:
-${answers[2]}`;
-
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const aiResponse = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "claude-sonnet-4-20250514",
+        system: systemPrompt,
         messages: [
-          { role: "system", content: systemPrompt },
           { role: "user", content: userMessage },
         ],
         max_tokens: 600,
