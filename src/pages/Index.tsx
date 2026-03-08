@@ -7,8 +7,8 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <Particles count={70} />
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}>
+      <Particles count={90} />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
