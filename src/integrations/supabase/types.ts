@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      letters: {
+        Row: {
+          created_at: string
+          generated_letter: string
+          id: string
+          ip_hash: string
+          raw_input_1: string
+          raw_input_2: string
+          raw_input_3: string
+          relationship: string
+          sender_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          generated_letter: string
+          id?: string
+          ip_hash: string
+          raw_input_1: string
+          raw_input_2: string
+          raw_input_3: string
+          relationship: string
+          sender_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          generated_letter?: string
+          id?: string
+          ip_hash?: string
+          raw_input_1?: string
+          raw_input_2?: string
+          raw_input_3?: string
+          relationship?: string
+          sender_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
