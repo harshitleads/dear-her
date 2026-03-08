@@ -7,6 +7,7 @@ interface VoiceTextareaProps {
   maxLength: number;
   placeholder?: string;
   label: string;
+  labelColor?: string;
 }
 
 const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label }: VoiceTextareaProps) => {
