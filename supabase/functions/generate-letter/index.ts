@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { relationship, senderName, answers } = await req.json();
+    const { relationship, customName, senderName, answers } = await req.json();
 
     // Validate inputs
     if (!relationship || !answers || answers.length !== 3) {
