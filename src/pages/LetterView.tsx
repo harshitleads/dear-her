@@ -75,7 +75,7 @@ const LetterView = () => {
 
   if (!letter) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-6">
+      <div className="min-h-screen flex items-center justify-center px-6" style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}>
         <p className="font-letter text-foreground/50 text-xl">
           This letter doesn't exist or has been lost in time.
         </p>

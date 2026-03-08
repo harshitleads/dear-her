@@ -26,7 +26,7 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelCo
 
   return (
     <div>
-      <label className="block font-letter text-lg text-foreground/60 mb-3">
+      <label className="block font-letter text-lg text-foreground/60 mb-3" style={labelColor ? { color: labelColor } : undefined}>
         {label}
       </label>
       <div className="relative">
