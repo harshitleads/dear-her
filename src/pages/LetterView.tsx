@@ -67,7 +67,7 @@ const LetterView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(to bottom, #fce8e8, #f5c0c8)' }}>
         <div className="w-16 h-16 rounded-full bg-rose-gold/20 warm-glow-pulse" />
       </div>
     );
