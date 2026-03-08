@@ -9,7 +9,7 @@ interface UseSpeechRecognitionResult {
 
 export const useSpeechRecognition = (): UseSpeechRecognitionResult => {
   const [isListening, setIsListening] = useState(false);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   const SpeechRecognitionAPI =
     typeof window !== "undefined"
