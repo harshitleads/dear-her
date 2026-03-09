@@ -86,7 +86,7 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelCo
             </TooltipProvider>
           )}
         </div>
-        <span className="absolute bottom-3 left-4 font-body text-xs text-foreground/30">
+        <span className="absolute bottom-3 left-4 font-body text-xs text-foreground/30" style={{ background: '#fff5f5', borderRadius: '4px', padding: '2px 6px' }}>
           {displayValue.length}/{maxLength}
         </span>
       </div>
