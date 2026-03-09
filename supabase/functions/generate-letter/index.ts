@@ -137,6 +137,7 @@ serve(async (req) => {
       .from("letters")
       .insert({
         relationship,
+        recipient_name: customName || null,
         raw_input_1: answers[0],
         raw_input_2: answers[1],
         raw_input_3: answers[2],
