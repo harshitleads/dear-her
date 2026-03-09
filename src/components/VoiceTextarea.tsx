@@ -60,7 +60,7 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelCo
           readOnly={isListening}
           maxLength={maxLength}
           rows={3}
-          className="w-full bg-muted/50 border border-foreground/10 rounded-lg px-4 py-3 pr-12 font-letter text-lg text-foreground/90 placeholder:text-foreground/20 resize-none focus:outline-none focus:border-rose-gold/50 transition-colors duration-[600ms]"
+          className="w-full bg-muted/50 border border-foreground/10 rounded-lg px-4 pt-3 pb-8 pr-12 font-letter text-lg text-foreground/90 placeholder:text-foreground/20 resize-none focus:outline-none focus:border-rose-gold/50 transition-colors duration-[600ms]"
           placeholder={placeholder}
         />
         <div className="absolute bottom-3 right-3 flex flex-col items-center gap-1">
