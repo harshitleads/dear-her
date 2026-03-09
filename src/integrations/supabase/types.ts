@@ -23,6 +23,7 @@ export type Database = {
           raw_input_1: string
           raw_input_2: string
           raw_input_3: string
+          recipient_name: string | null
           relationship: string
           sender_name: string | null
         }
@@ -34,6 +35,7 @@ export type Database = {
           raw_input_1: string
           raw_input_2: string
           raw_input_3: string
+          recipient_name?: string | null
           relationship: string
           sender_name?: string | null
         }
@@ -45,6 +47,7 @@ export type Database = {
           raw_input_1?: string
           raw_input_2?: string
           raw_input_3?: string
+          recipient_name?: string | null
           relationship?: string
           sender_name?: string | null
         }
