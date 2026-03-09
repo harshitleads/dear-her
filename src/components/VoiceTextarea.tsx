@@ -48,52 +48,47 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelCo
 
   return (
     <div>
-      <label
-        className="block font-letter text-lg text-foreground/60 mb-3"
-        style={labelColor ? { color: labelColor } : undefined}
-      >
+      <label className="block font-letter text-lg text-foreground/60 mb-3" style={labelColor ? { color: labelColor } : undefined}>
         {label}
       </label>
-
-      <textarea
-        value={displayValue}
-        onChange={(e) => {
-          if (!isListening && e.target.value.length <= maxLength) onChange(e.target.value);
-        }}
-        readOnly={isListening}
-        maxLength={maxLength}
-        rows={3}
-        className="w-full bg-muted/50 border border-foreground/10 rounded-lg px-4 py-3 font-letter text-lg text-foreground/90 placeholder:text-foreground/20 resize-none focus:outline-none focus:border-rose-gold/50 transition-colors duration-[600ms]"
-        placeholder={placeholder}
-      />
-
-      {/* Below-textarea meta row(s) so nothing ever overlaps typed text */}
-      <div className="mt-2 flex flex-col items-end gap-1">
-        <span className="font-body text-xs text-foreground/30">
+      <div className="relative">
+        <textarea
+          value={displayValue}
+          onChange={(e) => {
+            if (!isListening && e.target.value.length <= maxLength) onChange(e.target.value);
+          }}
+          readOnly={isListening}
+          maxLength={maxLength}
+          rows={3}
+          className="w-full bg-muted/50 border border-foreground/10 rounded-lg px-4 pt-3 pb-8 pr-12 font-letter text-lg text-foreground/90 placeholder:text-foreground/20 resize-none focus:outline-none focus:border-rose-gold/50 transition-colors duration-[600ms]"
+          placeholder={placeholder}
+        />
+        <div className="absolute bottom-3 right-3 flex flex-col items-center gap-1">
+          {isSupported ? (
+            <>
+              {micButton}
+              <span className="font-body text-[10px] text-foreground/25">
+                {isListening ? "tap to stop" : "or speak"}
+              </span>
+            </>
+          ) : (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button type="button" className="p-1.5 rounded-full text-foreground/15 cursor-not-allowed">
+                    <Mic size={18} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-xs">Voice not supported on this browser</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </div>
+        <span className="absolute bottom-3 left-4 font-body text-xs text-foreground/30">
           {displayValue.length}/{maxLength}
         </span>
-
-        {isSupported ? (
-          <div className="flex items-center gap-2">
-            {micButton}
-            <span className="font-body text-[10px] text-foreground/25">
-              {isListening ? "tap to stop" : "or speak"}
-            </span>
-          </div>
-        ) : (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button type="button" className="p-1.5 rounded-full text-foreground/15 cursor-not-allowed">
-                  <Mic size={18} />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-xs">Voice not supported on this browser</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
       </div>
     </div>
   );
