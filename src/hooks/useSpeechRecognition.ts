@@ -13,7 +13,7 @@ export const useSpeechRecognition = (): UseSpeechRecognitionResult => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const recognitionRef = useRef<any>(null);
-  const finalTranscriptRef = useRef("");
+  const isListeningRef = useRef(false);
 
   const SpeechRecognitionAPI =
     typeof window !== "undefined"
@@ -22,11 +22,12 @@ export const useSpeechRecognition = (): UseSpeechRecognitionResult => {
 
   const isSupported = !!SpeechRecognitionAPI;
 
-  const startListening = useCallback(() => {
+  const createAndStart = useCallback(() => {
     if (!SpeechRecognitionAPI) return;
 
-    finalTranscriptRef.current = "";
-    setTranscript("");
+    // Kill any existing instance
+    try { recognitionRef.current?.stop(); } catch {}
+    recognitionRef.current = null;
 
     const recognition = new SpeechRecognitionAPI();
     recognition.continuous = true;
@@ -44,16 +45,16 @@ export const useSpeechRecognition = (): UseSpeechRecognitionResult => {
           interimText += result[0].transcript;
         }
       }
-      finalTranscriptRef.current = finalText;
       setTranscript(finalText + interimText);
     };
 
-    // If browser kills it (e.g. network error), restart automatically
     recognition.onend = () => {
-      if (recognitionRef.current === recognition) {
+      // If we're still supposed to be listening, recreate fresh
+      if (isListeningRef.current) {
         try {
-          recognition.start();
+          createAndStart();
         } catch {
+          isListeningRef.current = false;
           setIsListening(false);
           recognitionRef.current = null;
         }
@@ -62,20 +63,35 @@ export const useSpeechRecognition = (): UseSpeechRecognitionResult => {
 
     recognition.onerror = (e: any) => {
       if (e.error === "not-allowed" || e.error === "service-not-available") {
+        isListeningRef.current = false;
         setIsListening(false);
         recognitionRef.current = null;
       }
+      // For other errors (network, aborted, etc.), onend will fire and auto-restart
     };
 
     recognitionRef.current = recognition;
-    recognition.start();
-    setIsListening(true);
+    try {
+      recognition.start();
+    } catch {
+      isListeningRef.current = false;
+      setIsListening(false);
+      recognitionRef.current = null;
+    }
   }, [SpeechRecognitionAPI]);
 
+  const startListening = useCallback(() => {
+    if (!SpeechRecognitionAPI) return;
+    setTranscript("");
+    isListeningRef.current = true;
+    setIsListening(true);
+    createAndStart();
+  }, [SpeechRecognitionAPI, createAndStart]);
+
   const stopListening = useCallback((): string => {
-    const recognition = recognitionRef.current;
-    recognitionRef.current = null; // prevent auto-restart in onend
-    recognition?.stop();
+    isListeningRef.current = false;
+    try { recognitionRef.current?.stop(); } catch {}
+    recognitionRef.current = null;
     setIsListening(false);
     const result = transcript;
     setTranscript("");
@@ -83,7 +99,6 @@ export const useSpeechRecognition = (): UseSpeechRecognitionResult => {
   }, [transcript]);
 
   const resetTranscript = useCallback(() => {
-    finalTranscriptRef.current = "";
     setTranscript("");
   }, []);
 
