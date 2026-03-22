@@ -22,6 +22,17 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelCo
     ? (value ? `${value} ${transcript}` : transcript).slice(0, maxLength)
     : value;
 
+  // Sync with parent: if parent says we're not active but we're listening, stop
+  const wasActive = useRef(isRecordingActive);
+  if (wasActive.current && !isRecordingActive && isListening) {
+    const finalTranscript = stopListening();
+    if (finalTranscript) {
+      const newValue = value ? `${value} ${finalTranscript}` : finalTranscript;
+      onChange(newValue.slice(0, maxLength));
+    }
+  }
+  wasActive.current = isRecordingActive;
+
   const handleMicClick = () => {
     if (isListening) {
       const finalTranscript = stopListening();
@@ -29,8 +40,10 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelCo
         const newValue = value ? `${value} ${finalTranscript}` : finalTranscript;
         onChange(newValue.slice(0, maxLength));
       }
+      onRecordingStop?.();
       return;
     }
+    onRecordingStart?.();
     startListening();
   };
 
