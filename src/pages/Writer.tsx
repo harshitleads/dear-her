@@ -30,6 +30,7 @@ const Writer = () => {
   const [answers, setAnswers] = useState(["", "", ""]);
   const [customName, setCustomName] = useState("");
   const [senderName, setSenderName] = useState("");
+  const [activeRecordingIndex, setActiveRecordingIndex] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
   const [remaining, setRemaining] = useState<number | null>(null);
@@ -210,6 +211,9 @@ const Writer = () => {
                   label={prompt}
                   placeholder="Start writing..."
                   labelColor="#7a2535"
+                  isRecordingActive={activeRecordingIndex === i}
+                  onRecordingStart={() => setActiveRecordingIndex(i)}
+                  onRecordingStop={() => setActiveRecordingIndex(null)}
                 />
               </motion.div>
             ))}

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Mic } from "lucide-react";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -9,15 +10,29 @@ interface VoiceTextareaProps {
   placeholder?: string;
   label: string;
   labelColor?: string;
+  isRecordingActive?: boolean;
+  onRecordingStart?: () => void;
+  onRecordingStop?: () => void;
 }
 
-const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelColor }: VoiceTextareaProps) => {
+const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelColor, isRecordingActive, onRecordingStart, onRecordingStop }: VoiceTextareaProps) => {
   const { isListening, isSupported, transcript, startListening, stopListening } = useSpeechRecognition();
 
   // Show real-time preview: existing text + live transcript
   const displayValue = isListening && transcript
     ? (value ? `${value} ${transcript}` : transcript).slice(0, maxLength)
     : value;
+
+  // Sync with parent: if parent says we're not active but we're listening, stop
+  const wasActive = useRef(isRecordingActive);
+  if (wasActive.current && !isRecordingActive && isListening) {
+    const finalTranscript = stopListening();
+    if (finalTranscript) {
+      const newValue = value ? `${value} ${finalTranscript}` : finalTranscript;
+      onChange(newValue.slice(0, maxLength));
+    }
+  }
+  wasActive.current = isRecordingActive;
 
   const handleMicClick = () => {
     if (isListening) {
@@ -26,8 +41,10 @@ const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelCo
         const newValue = value ? `${value} ${finalTranscript}` : finalTranscript;
         onChange(newValue.slice(0, maxLength));
       }
+      onRecordingStop?.();
       return;
     }
+    onRecordingStart?.();
     startListening();
   };
 
