@@ -9,9 +9,12 @@ interface VoiceTextareaProps {
   placeholder?: string;
   label: string;
   labelColor?: string;
+  isRecordingActive?: boolean;
+  onRecordingStart?: () => void;
+  onRecordingStop?: () => void;
 }
 
-const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelColor }: VoiceTextareaProps) => {
+const VoiceTextarea = ({ value, onChange, maxLength, placeholder, label, labelColor, isRecordingActive, onRecordingStart, onRecordingStop }: VoiceTextareaProps) => {
   const { isListening, isSupported, transcript, startListening, stopListening } = useSpeechRecognition();
 
   // Show real-time preview: existing text + live transcript
