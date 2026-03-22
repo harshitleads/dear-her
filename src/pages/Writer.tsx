@@ -211,6 +211,9 @@ const Writer = () => {
                   label={prompt}
                   placeholder="Start writing..."
                   labelColor="#7a2535"
+                  isRecordingActive={activeRecordingIndex === i}
+                  onRecordingStart={() => setActiveRecordingIndex(i)}
+                  onRecordingStop={() => setActiveRecordingIndex(null)}
                 />
               </motion.div>
             ))}
