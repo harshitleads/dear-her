@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Particles from "@/components/Particles";
+import CaseStudyBubble from "@/components/CaseStudyBubble";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -50,6 +51,8 @@ const Index = () => {
           </Button>
         </motion.div>
       </motion.div>
+
+      <CaseStudyBubble />
     </div>
   );
 };
