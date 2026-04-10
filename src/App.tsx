@@ -6,6 +6,7 @@ import Index from "./pages/Index";
 import Writer from "./pages/Writer";
 import LetterView from "./pages/LetterView";
 import NotFound from "./pages/NotFound";
+import CaseStudyBubble from "@/components/CaseStudyBubble";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
+    <CaseStudyBubble />
   </QueryClientProvider>
 );
 

@@ -1,34 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-
 export default function CaseStudyBubble() {
-  const [visible, setVisible] = useState(false);
-  const reappearTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const scheduleShow = useCallback((delay: number) => {
-    if (reappearTimer.current) clearTimeout(reappearTimer.current);
-    reappearTimer.current = setTimeout(() => setVisible(true), delay);
-  }, []);
-
-  useEffect(() => {
-    scheduleShow(3000);
-    return () => {
-      if (reappearTimer.current) clearTimeout(reappearTimer.current);
-    };
-  }, [scheduleShow]);
-
-  function hide() {
-    setVisible(false);
-    scheduleShow(30000);
-  }
-
-  function handleDismiss(e: React.MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-    hide();
-  }
-
-  if (!visible) return null;
-
   return (
     <a
       href="https://harshit.ai/work/dear-her"
@@ -59,16 +29,6 @@ export default function CaseStudyBubble() {
           How I built Dear Her
         </p>
       </div>
-      <button
-        onClick={handleDismiss}
-        className="ml-1 bg-transparent border-none cursor-pointer text-[16px] leading-none p-0"
-        style={{ color: "#9d7084" }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = "#fce7f3")}
-        onMouseLeave={(e) => (e.currentTarget.style.color = "#9d7084")}
-        aria-label="Dismiss"
-      >
-        &#215;
-      </button>
     </a>
   );
 }
