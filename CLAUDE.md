@@ -7,16 +7,9 @@ AI letter generator. Users answer three prompts about someone they care about. C
 - TypeScript, React, Tailwind CSS, shadcn/ui
 - Supabase (PostgreSQL, auth-free letter storage)
 - Claude API (Sonnet) for letter generation
-- Deployed via Lovable (Vite + auto-deploy from Lovable editor, manual Publish required for GitHub pushes)
+- Deployed via Lovable (Vite + manual Publish required for GitHub pushes)
 - Repo: harshitleads/dear-her
 - Live: dearher.harshit.ai
-
-## Architecture
-- Landing page with relationship type selector
-- Three-prompt writer with voice input
-- Letter generation via Claude API
-- Shareable letter page with typewriter animation
-- Supabase stores letters with hashed IPs only
 
 ## Code Rules
 - No em dashes anywhere in copy
@@ -30,58 +23,19 @@ AI letter generator. Users answer three prompts about someone they care about. C
 - After Cursor pushes, must manually click Publish → Update in Lovable editor
 - .env must remain in the repo for Lovable's build pipeline
 
-## Decision Logging
-When you make or execute a product or technical decision, append it to `docs/decisions.md` in this format:
-```
-### YYYY-MM-DD -- Short title
-**Decision:** What was decided.
-**Why:** The reasoning.
-**Rejected:** What alternatives were considered and why they lost.
-```
-
 ---
 
-## ACTIVE TASK: Add Floating Case Study Bubble
+## ACTIVE TASK: Simplify Case Study Bubble — persistent, all pages, right-aligned
 
 ### Context
-Add a floating popup to the landing page linking to the case study on harshit.ai. Consumer app — 30s reappear delay after dismiss.
+The current CaseStudyBubble has dismiss/reappear logic and only shows on the landing page. We want it persistent (always visible, no dismiss), showing on ALL pages, and right-aligned on mobile (not full-width).
 
 ### What to Do
 
-**1. Create `src/components/CaseStudyBubble.tsx`** with this exact content:
+**1. Replace `src/components/CaseStudyBubble.tsx`** with this simplified version:
 
 ```tsx
-import { useState, useEffect, useRef, useCallback } from "react";
-
 export default function CaseStudyBubble() {
-  const [visible, setVisible] = useState(false);
-  const reappearTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const scheduleShow = useCallback((delay: number) => {
-    if (reappearTimer.current) clearTimeout(reappearTimer.current);
-    reappearTimer.current = setTimeout(() => setVisible(true), delay);
-  }, []);
-
-  useEffect(() => {
-    scheduleShow(3000);
-    return () => {
-      if (reappearTimer.current) clearTimeout(reappearTimer.current);
-    };
-  }, [scheduleShow]);
-
-  function hide() {
-    setVisible(false);
-    scheduleShow(30000);
-  }
-
-  function handleDismiss(e: React.MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-    hide();
-  }
-
-  if (!visible) return null;
-
   return (
     <a
       href="https://harshit.ai/work/dear-her"
@@ -112,28 +66,23 @@ export default function CaseStudyBubble() {
           How I built Dear Her
         </p>
       </div>
-      <button
-        onClick={handleDismiss}
-        className="ml-1 bg-transparent border-none cursor-pointer text-[16px] leading-none p-0"
-        style={{ color: "#9d7084" }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = "#fce7f3")}
-        onMouseLeave={(e) => (e.currentTarget.style.color = "#9d7084")}
-        aria-label="Dismiss"
-      >
-        &#215;
-      </button>
     </a>
   );
 }
 ```
 
-**2. In `src/index.css`**, add at the very bottom (only if not already present):
-```css
-@keyframes bubbleIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+**2. Move render from `src/pages/Index.tsx` to `src/App.tsx`:**
 
+In `src/pages/Index.tsx`:
+- REMOVE the import line: `import CaseStudyBubble from "@/components/CaseStudyBubble";`
+- REMOVE the `<CaseStudyBubble />` render from the JSX
+
+In `src/App.tsx`:
+- ADD import: `import CaseStudyBubble from "@/components/CaseStudyBubble";`
+- ADD `<CaseStudyBubble />` right before the closing `</QueryClientProvider>` tag, so it renders on all routes
+
+**3. In `src/index.css`**, REMOVE the mobile full-width override. Find and delete this block:
+```css
 @media (max-width: 639px) {
   .fixed.bottom-6.right-6 {
     left: 1rem;
@@ -143,24 +92,15 @@ export default function CaseStudyBubble() {
 }
 ```
 
-**3. In `src/pages/Index.tsx`**:
-- Add import at top: `import CaseStudyBubble from "@/components/CaseStudyBubble";`
-- Add `<CaseStudyBubble />` as the last child inside the root div, after `</motion.div>`
+Keep the `bubbleIn` keyframe — that stays.
 
 ### DO NOT TOUCH
 - .env
 - .gitignore
 - Any file not listed above
 
-### Acceptance Criteria
-- [ ] Bubble appears bottom-right after 3 seconds on landing page
-- [ ] Links to https://harshit.ai/work/dear-her in new tab
-- [ ] Clicking x dismisses, reappears after 30 seconds
-- [ ] Matches rose/pink theme
-- [ ] No TypeScript errors
-- [ ] No "use client" directives anywhere
-
 ### Files to Touch (ONLY these)
-- CREATE: `src/components/CaseStudyBubble.tsx`
-- EDIT: `src/pages/Index.tsx` (import + render)
-- EDIT: `src/index.css` (keyframe + mobile, only if not present)
+- EDIT: `src/components/CaseStudyBubble.tsx` (simplify — remove all state/timers/dismiss)
+- EDIT: `src/pages/Index.tsx` (remove import and render of CaseStudyBubble)
+- EDIT: `src/App.tsx` (add import and render of CaseStudyBubble)
+- EDIT: `src/index.css` (remove mobile full-width media query, keep bubbleIn keyframe)
