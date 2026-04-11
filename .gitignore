@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# AI workflow files
+.claude/
+.cursor/
+AGENTS.md
+.deepeval-cache.json
+.deepeval_telemetry*
+.latest_test_run.json
+DeepEval results/
