@@ -97,12 +97,17 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-5",
         system: systemPrompt,
         messages: [
           { role: "user", content: userMessage },
         ],
-        max_tokens: 600,
+        // Sonnet 5 thinks unless this is set, and thinking tokens count against
+        // max_tokens. This call previously ran without thinking, so keep that
+        // and leave the budget for the letter. The newer tokenizer uses about
+        // 30% more tokens for the same text, so the old 600 limit is too tight.
+        max_tokens: 1600,
+        thinking: { type: "disabled" },
       }),
     });
 
@@ -126,7 +131,10 @@ serve(async (req) => {
     }
 
     const aiData = await aiResponse.json();
-    const generatedLetter = aiData.content?.[0]?.text;
+    const content = Array.isArray(aiData.content) ? aiData.content : [];
+    const generatedLetter = content.find(
+      (block: { type?: string; text?: string }) => block?.type === "text" && typeof block.text === "string"
+    )?.text;
 
     if (!generatedLetter) {
       throw new Error("No letter generated");
