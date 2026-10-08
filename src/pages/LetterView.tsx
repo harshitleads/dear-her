@@ -21,17 +21,15 @@ const LetterView = () => {
   useEffect(() => {
     const fetchLetter = async () => {
       if (!id) return;
-      const { data, error } = await supabase
-        .from("letters")
-        .select("generated_letter")
-        .eq("id", id)
-        .single();
+      const { data, error } = await (supabase as any).rpc("get_letter_by_id", {
+        letter_id: id,
+      });
 
       if (error || !data) {
         setLoading(false);
         return;
       }
-      setLetter(data.generated_letter);
+      setLetter(data as string);
       setLoading(false);
     };
     fetchLetter();
